@@ -20,14 +20,16 @@ class TweetsController extends Controller{
     	$rsl->codigo=null;
     	$rsl->data=null;
     	$validator = Validator::make($request->all(), [
-    		'id' => 'required|integer'
+    		'id' => 'required|integer',
+            'idlog' => 'required|integer'
     	]);
     	if($validator->fails()){
     		$rsl->errores=$validator->errors();
     		$rsl->proceso=0;
     	}else{
             $id=$request['id'];
-            $rsl->data= Tweet::getTweet("where usuario_id=$id");
+            $idlog=$request['idlog'];
+            $rsl->data= Tweet::getTweet("where t.usuario_id=$id", $id, $idlog);
     	}
         return json_encode($rsl);
     }
@@ -72,7 +74,12 @@ class TweetsController extends Controller{
             $existe=DB::select("select * from likes where tweet_id=$id and user_id=$usuario_id");
             if($existe){
                 foreach ($existe as $value) {
-                    DB::table('likes')->where("tweet_id", $id)->where("user_id", $usuario_id)->update(['tipo' => $request['reaccion'], 'updated_at' => $date]);
+                    if($value->tipo==$request['reaccion']){
+                        DB::table('likes')->where("tweet_id", $id)->where("user_id", $usuario_id)->delete();
+                    }else{
+                        DB::table('likes')->where("tweet_id", $id)->where("user_id", $usuario_id)->update(['tipo' => $request['reaccion'], 'updated_at' => $date]);
+                    }
+                    
                 }               
             }else{
                 Like::create([

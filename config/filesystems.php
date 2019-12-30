@@ -50,10 +50,10 @@ return [
 
         'public' => [
             'driver' => 'local',
-            'root' => storage_path('app/public'),
+            'root' => storage_path('app/public/images/images_perfil'),
             'url' => env('APP_URL').'/storage',
             'visibility' => 'public',
-        ],
+        ], 
 
         's3' => [
             'driver' => 's3',

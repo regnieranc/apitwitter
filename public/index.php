@@ -26,7 +26,8 @@ define('LARAVEL_START', microtime(true));
 |
 */
 
-require __DIR__.'/../../apitwittervendor/autoload.php'; 
+//require __DIR__.'/../../apitwittervendor/autoload.php'; 
+require __DIR__.'/../vendor/autoload.php'; 
 
 /*
 |--------------------------------------------------------------------------
@@ -40,7 +41,9 @@ require __DIR__.'/../../apitwittervendor/autoload.php';
 |
 */
 
-$app = require_once __DIR__.'/../../apitwitter/bootstrap/app.php';
+//$app = require_once __DIR__.'/../../apitwitter/bootstrap/app.php';
+
+$app = require_once __DIR__.'/../bootstrap/app.php';
 
 /*
 |--------------------------------------------------------------------------

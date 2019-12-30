@@ -63,7 +63,7 @@ class ConectarController extends Controller{
                     $sonamigos=DB::select("select * from conectar where (mi_id=$miid and amigo_id=$usuarioid)
                                             or (amigo_id=$miid and mi_id=$usuarioid)");
                     if($sonamigos){
-                        DB::table("conectar")->where('mi_id', $miid)->where('amigo_id', $usuarioid)->orWhere('mi_id', $usuarioid)->orWhere('amigo_id', $miid)->delete();
+                        DB::table("conectar")->where('mi_id', $miid)->where('amigo_id', $usuarioid)->delete();
                     }else{
                         array_push($rsl->errores, ["Los usuarios no son amigos"]);
                         $rsl->proceso=0;
