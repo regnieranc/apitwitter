@@ -102,7 +102,7 @@ class UsuarioController extends Controller{
         $rsl->proceso=1;
         $rsl->errores=[];
         $rsl->data=null;
-         $validator = Validator::make($request->all(), [
+        $validator = Validator::make($request->all(), [
             'id' => 'required|integer',//id persona logueada
         ]);
         if($validator->fails()){
@@ -110,6 +110,23 @@ class UsuarioController extends Controller{
             $rsl->proceso=0;
         }else{
             $rsl->data= User::getSeguidores($request['id']);
+        }
+        return json_encode($rsl);
+    }
+
+    public function informacion(Request $request){
+        $rsl = new stdClass();
+        $rsl->proceso=1;
+        $rsl->errores=[];
+        $rsl->data=null;
+        $validator = Validator::make($request->all(), [
+            'id' => 'required|integer',//id persona logueada
+        ]);
+        if($validator->fails()){
+            $rsl->errores=$validator->errors();
+            $rsl->proceso=0;
+        }else{
+            $rsl->data= User::getInformacion($request['id']);
         }
         return json_encode($rsl);
     }

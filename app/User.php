@@ -8,6 +8,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 
 use DB;
+use \stdClass;
 
 class User extends Authenticatable implements JWTSubject
 {
@@ -60,5 +61,12 @@ class User extends Authenticatable implements JWTSubject
 
     public static function getSeguidores($where){
         return DB::select("select c.id, c.created_at, u.foto, u.name, u.nick, u.descripcion from conectar c join users u on u.id=c.mi_id where c.amigo_id=$where");
+    }
+    public static function getInformacion($id){
+        $rsl=new stdClass();
+        $rsl->tweets=DB::select("select count(*) as tweets from tweets where usuario_id=$id")[0]->tweets;
+        $rsl->seguidores=DB::select("select count(*) as seguidores from conectar where amigo_id=$id")[0]->seguidores;
+        $rsl->siguiendo=DB::select("select count(*) as siguiendo from conectar where mi_id=$id")[0]->siguiendo;
+        return $rsl;
     }
 }
